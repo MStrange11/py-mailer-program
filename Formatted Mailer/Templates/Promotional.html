@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Promotional</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+      }
+
+      .header {
+        background-color: #007bff;
+        color: white;
+        padding: 1rem;
+        text-align: center;
+        /* background-image: url("renders/bg3.jpeg"); */
+        background-image: url("https://e0.pxfuel.com/wallpapers/136/771/desktop-wallpaper-ultra-gallery-high-resolution-ultra-high-resolution-nature.jpg");
+        background-repeat: no-repeat;
+        background-size: cover;
+        text-shadow: 2px 2px 5px black;
+      }
+
+      .main-content {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        padding: 2rem;
+        background-image: url("https://getwallpapers.com/wallpaper/full/9/e/9/1093212-download-free-nature-background-hd-2262x1504-for-ipad-2.jpg");
+        background-repeat: no-repeat;
+        background-size: cover;
+      }
+
+      .product-card {
+        background-color: #f2f2f2;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        flex-basis: 50%;
+        margin-bottom: 2rem;
+        padding: 1rem;
+        text-align: center;
+        /* opacity: 0.5; */
+      }
+
+      .product-table {
+        margin: 0 auto;
+        width: 80%;
+        /* opacity: 1; */
+      }
+
+      th,
+      td {
+        border: 1px solid #dddddd;
+        padding: 0.5rem;
+        text-align: left;
+      }
+
+      th {
+        background-color: #dddddd;
+        font-weight: bold;
+      }
+
+      tr:nth-child(even) {
+        background-color: #f2f2f2;
+      }
+
+      @media (max-width: 768px) {
+        .product-card {
+          flex-basis: 100%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="header">
+      <h1>Promotional</h1>
+    </header>
+    <main class="main-content">
+      <div class="product-card">
+        <h2>Product Name</h2>
+        <img src="product.jpg" alt="Product" width="100%" />
+        <table class="product-table">
+          <thead>
+            <tr>
+              <th>Feature</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Color</td>
+              <td>Red</td>
+            </tr>
+            <tr>
+              <td>Size</td>
+              <td>Medium</td>
+            </tr>
+            <tr>
+              <td>Material</td>
+              <td>Cotton</td>
+            </tr>
+          </tbody>
+        </table>
+        <button>Buy Now</button>
+      </div>
+    </main>
+  </body>
+</html>

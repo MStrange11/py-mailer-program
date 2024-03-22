@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Birthday</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+      }
+
+      .header {
+        background-color: #007bff;
+        color: white;
+        padding: 1rem;
+        text-align: center;
+        background-image: url("https://www.shutterstock.com/image-vector/happy-birthday-banner-colorful-watercolor-260nw-1075991609.jpg");
+        background-size: cover;
+        position: relative;
+        z-index: 10;
+        box-shadow: 0 3px 10px black;
+      }
+
+      .header h1 {
+        visibility: hidden;
+      }
+
+      .main-content {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        padding: 2rem;
+        background-image: url("https://pbs.twimg.com/media/GCyi6ObWAAAK8LW?format=jpg&name=large");
+        background-size: cover;
+      }
+
+      .product-card {
+        background-color: #f2f2f2;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        flex-basis: 30%;
+        margin-bottom: 2rem;
+        padding: 1rem;
+        text-align: center;
+      }
+
+      .product-table {
+        margin: 0 auto;
+        width: 80%;
+      }
+
+      th,
+      td {
+        border: 1px solid #dddddd;
+        padding: 0.5rem;
+        text-align: left;
+      }
+
+      th {
+        background-color: #dddddd;
+        font-weight: bold;
+      }
+
+      tr:nth-child(even) {
+        background-color: #f2f2f2;
+      }
+
+      @media (max-width: 768px) {
+        .product-card {
+          flex-basis: 100%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="header">
+      <h1>Birthday</h1>
+    </header>
+    <main class="main-content">
+      <div class="product-card">
+        <h2>Product Name</h2>
+        <img src="product.jpg" alt="Product" width="100%" />
+        <table class="product-table">
+          <thead>
+            <tr>
+              <th>Feature</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Name</td>
+              <td>{name}</td>
+            </tr>
+            <tr>
+              <td>Birth date</td>
+              <td>{birthdate}</td>
+            </tr>
+            <tr>
+              <td>age</td>
+              <td>{age}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </main>
+  </body>
+</html>
