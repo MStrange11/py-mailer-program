@@ -14,14 +14,17 @@ def get_format(format_name):
     except Exception as e:
         print(e)
 
-def show_format(formats):
+def display(data_):
     i =1
-    for k in formats:
+    for k in data_:
         print(f"{i}) {k}")
         i += 1
-
     print()
-    print("Enter the number only ->")
+
+def show_format(formats):
+    display(formats)
+
+    print("Enter option number only ->")
     format_selected = int(input("Chosse a predefine format: ")) - 1
 
     while not (format_selected >= 0 and format_selected < len(formats)):
@@ -29,7 +32,7 @@ def show_format(formats):
         format_selected = int(input("Chosse a predefine format: ")) - 1
 
     fmat = formats[format_selected]
-    return fmat, formats_data[fmat] 
+    return fmat, formats_data[fmat]
 
 def main():
     return show_format(list(formats_data.keys()))

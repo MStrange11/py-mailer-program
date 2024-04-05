@@ -1,8 +1,9 @@
 import Mail as M
 import Preformat as pf
-import user
+import user, os
 
 class Mail_setup:
+    
     def __init__(self,html_file_content, replacement):
         self.html_data = html_file_content
         self.html_data_re = replacement
@@ -35,6 +36,12 @@ class Mail_setup:
         
         recipient_mail = input("enter recipient's mail to add : ")
         self.mail.add_recipient(recipient_mail)
+    
+    def add_recipients(self,r_l):
+        for email in r_l:
+            self.mail.add_recipient(email)
+        
+        print("all email are set in recipient list")
 
     def final_send(self):
         if self.mail.set_from_to():
@@ -84,12 +91,60 @@ if __name__ == "__main__":
         if login():
             html_fmat, html_replacement= pf.main()
             m = Mail_setup(html_fmat, html_replacement)
-            m.final_send()
 
-            yes_no = input("Do you want send mail again (yes) or (no)")
+            while 1:
+                print('''
+                    1) add recipient
+                    2) add recipient list
+                    3) attach image
+                    4) attach pdf
+                    5) send mail
+                    0) cancel process
+                    ''')
+                option = int(input("enter option number: "))
+                if option == 0:
+                    break
 
-            if yes_no != "yes":
-                break
+                if option == 1 :
+                    m.add_recipient()
+                elif option == 2:
+
+                    reci_list = user.reci
+                    email_list_type = reci_list.keys()
+
+                    pf.display(email_list_type)
+
+                    mail_option = int(input("enter mail option number: "))
+                    if (mail_option>=1 and mail_option<=len(email_list_type)):
+                        m.add_recipients(reci_list[email_list_type[option - 1]])
+                    else:
+                        print("option number not found!")
+                elif option == 3:
+
+                    print()
+                    for img in os.listdir("img"):
+                        print(img)
+                    print()
+
+                    img_name = ["img/"+input("enter image file name: ")]
+                    m.mail.attach_image(img_name)
+
+                elif option == 4:
+
+                    print()
+                    for pdf in os.listdir("pdf"):
+                        print(pdf)
+                    print()
+
+                    pdf_name = ["img/"+input("enter pdf file name: ")]
+                    m.mail.attach_pdf(pdf_name)
+
+                elif option == 5:
+                    m.final_send()
+                else:
+                    print("option number not found!")
+            
+            break
         else:
             print("You have loged out! \n")
 

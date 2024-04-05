@@ -1,19 +1,18 @@
 import Preformat as pf
 
-
 # import sever 
 import smtplib
 
 #to get login details from .env
 from decouple import config
 
+from email.message import EmailMessage
+
 # text for that box
 from email.mime.text import MIMEText
 
 # to attach image in the box
 from email.mime.image import MIMEImage
-
-from email.message import EmailMessage
 
 # to attach pdf in the box
 from email.mime.application import MIMEApplication
@@ -109,9 +108,10 @@ class Mailer(Sever):
     
     def send_mail(self):
         if self.from_to:
-            # respond = self.ob.sendmail(self._sending_mail, self.recipients_list, self.msg.as_string())
-            # print('send mail', respond)
-            pass
+            if (input("Enter (send) to confirm the sending process!")).lower() == "send":
+                respond = self.ob.sendmail(self._sending_mail, self.recipients_list, self.msg.as_string())
+                print('send mail', respond)
+            # pass
         else:
             print("please set From and To\nset using set_from_to() method")
 

@@ -1,5 +1,17 @@
 import Mail as M
 
+# recipients = [
+#     'gta5andepic@gmail.com',
+#     # 'suthara830@gmail.com'
+#     # 'drtas2521@gmail.com'
+#     ]
+
+reci = {
+    "meeting":['gta5andepic@gmail.com'],
+    "old user":['gta5andepic@gmail.com', "EpicStrange0@gmail.com"],
+    "new user":['gta5andepic@gmail.com']
+}
+
 class User:
     def __init__(self, username, role):
         self.username = username
