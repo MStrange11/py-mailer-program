@@ -1,46 +1,56 @@
 import Mail as M
 import Preformat as pf
-import user, os
+import os
+import user
+
 
 class Mail_setup:
-    
-    def __init__(self,html_file_content, replacement):
+
+    def __init__(self, html_file_content, replacement):
         self.html_data = html_file_content
         self.html_data_re = replacement
 
         self.mail = M.Mailer()
         self.mail.set_subject(self.setting_subject(True))
-        self.mail.set_body_html(self.setting_body_html(True),self.html_data, self.html_data_re)
-        self.mail.add_recipient(self.add_recipient(True))
-        
+        self.mail.set_body_html(self.setting_body_html(True), self.html_data, self.html_data_re)
 
-    def setting_subject(self, auto = False):
+        reci = self.add_recipient(True)
+        if reci:
+            self.mail.add_recipient(reci)
+
+    def setting_subject(self, auto=False):
         default_text = "This is test mail sending using python"
-        if auto == True:
+        if auto:
             subject = input("enter mail subject : ")
             return subject
         self.mail.set_subject(default_text)
-    
-    def setting_body_html(self, auto = False):
+
+    def setting_body_html(self, auto=False):
         default_text = 'This is a test mail, please do not reply to it!'
-        if auto == True:
+        if auto:
             text = input("enter text for mail body: ")
-            return default_text+ "\n" + text
+            return default_text + "\n" + text
         self.mail.set_body_html(default_text, self.html_data, self.html_data_re)
 
-
-    def add_recipient(self, auto = False):
-        if auto == True:
+    def add_recipient(self, auto=False):
+        if auto:
             recipient_mail = input("enter recipient's mail to add : ")
-            return recipient_mail
-        
+            if recipient_mail:
+                return recipient_mail
+            else:
+                print("recipient_mail input is empty!")
+                return None
+
         recipient_mail = input("enter recipient's mail to add : ")
-        self.mail.add_recipient(recipient_mail)
-    
-    def add_recipients(self,r_l):
+        if recipient_mail:
+            self.mail.add_recipient(recipient_mail)
+        else:
+            print("recipient_mail input is empty!")
+
+    def add_recipients(self, r_l):
         for email in r_l:
             self.mail.add_recipient(email)
-        
+
         print("all email are set in recipient list")
 
     def final_send(self):
@@ -50,15 +60,14 @@ class Mail_setup:
             print("problem in sending")
 
 
-
 def login():
-    all_roles = ["admin","view"]
+    all_roles = ["admin", "view"]
     u_name = input("Enter username : ")
     u_role = input("Enter your role (admin) or (view) : ")
 
     while not u_role in all_roles:
         u_role = input("Enter your role from this only (admin) or (view) : ")
-    
+
     m_user = user.Userhandler()
     user_obj = m_user.add_user(u_name, u_role)
     if user_obj:
@@ -84,13 +93,15 @@ def login():
         print("You must have to login to start process!")
 
 
-    
-
 if __name__ == "__main__":
     while True:
-        if login():
-            html_fmat, html_replacement= pf.main()
-            m = Mail_setup(html_fmat, html_replacement)
+        # if login():
+        if 1:
+            html_fmat, html_replacement = pf.main()
+
+            file = lambda: open(f"Templates\{html_fmat}.html").read()
+
+            m = Mail_setup(file(), html_replacement)
 
             while 1:
                 print('''
@@ -105,17 +116,17 @@ if __name__ == "__main__":
                 if option == 0:
                     break
 
-                if option == 1 :
+                if option == 1:
                     m.add_recipient()
                 elif option == 2:
 
                     reci_list = user.reci
-                    email_list_type = reci_list.keys()
+                    email_list_type = list(reci_list.keys())
 
                     pf.display(email_list_type)
 
                     mail_option = int(input("enter mail option number: "))
-                    if (mail_option>=1 and mail_option<=len(email_list_type)):
+                    if 1 <= mail_option <= len(email_list_type):
                         m.add_recipients(reci_list[email_list_type[option - 1]])
                     else:
                         print("option number not found!")
@@ -126,7 +137,7 @@ if __name__ == "__main__":
                         print(img)
                     print()
 
-                    img_name = ["img/"+input("enter image file name: ")]
+                    img_name = ["img/" + input("enter image file name: ")]
                     m.mail.attach_image(img_name)
 
                 elif option == 4:
@@ -136,14 +147,14 @@ if __name__ == "__main__":
                         print(pdf)
                     print()
 
-                    pdf_name = ["img/"+input("enter pdf file name: ")]
+                    pdf_name = ["pdf/" + input("enter pdf file name: ")]
                     m.mail.attach_pdf(pdf_name)
 
                 elif option == 5:
                     m.final_send()
+                    break
                 else:
                     print("option number not found!")
-            
             break
         else:
             print("You have loged out! \n")
@@ -154,10 +165,3 @@ if __name__ == "__main__":
                 break
 
     print("Thank you...")
-
-
-
-
-    
-
-    
