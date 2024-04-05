@@ -23,8 +23,8 @@ class Mail_setup:
     def setting_body_html(self, auto = False):
         default_text = 'This is a test mail, please do not reply to it!'
         if auto == True:
-            text = input("enter mail body text : ")
-            return default_text+ " " + text
+            text = input("enter text for mail body: ")
+            return default_text+ "\n" + text
         self.mail.set_body_html(default_text, self.html_data, self.html_data_re)
 
 
@@ -53,18 +53,54 @@ def login():
         u_role = input("Enter your role from this only (admin) or (view) : ")
     
     m_user = user.Userhandler()
-    if m_user.add_user(u_name, u_role):
+    user_obj = m_user.add_user(u_name, u_role)
+    if user_obj:
         print(f"{u_name}, you are in system")
 
+        while True:
+            print("""
+                1) start mailing process
+                2) Change pass Key
+                0) Log out
+                """)
+            option = int(input("enter option number: "))
 
-def main():
-    login()
+            # if (option >= 0 and option <= 1 ):
+            if option == 1:
+                return True
+            elif option == 2:
+                user_obj.change_pKey()
+            elif option == 0:
+                return False
+
+    else:
+        print("You must have to login to start process!")
+
+
+    
 
 if __name__ == "__main__":
-    # main()
-    html_fmat, html_replacement= pf.main()
-    m = Mail_setup(html_fmat, html_replacement)
-    m.final_send()
+    while True:
+        if login():
+            html_fmat, html_replacement= pf.main()
+            m = Mail_setup(html_fmat, html_replacement)
+            m.final_send()
+
+            yes_no = input("Do you want send mail again (yes) or (no)")
+
+            if yes_no != "yes":
+                break
+        else:
+            print("You have loged out! \n")
+
+            yes_no = input("Do you want to login again (yes) or (no)")
+
+            if yes_no != "yes":
+                break
+
+    print("Thank you...")
+
+
 
 
     

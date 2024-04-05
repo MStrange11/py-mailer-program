@@ -7,9 +7,6 @@ import smtplib
 #to get login details from .env
 from decouple import config
 
-# for creating package as box
-from email.mime.multipart import MIMEMultipart
-
 # text for that box
 from email.mime.text import MIMEText
 
@@ -30,15 +27,6 @@ class Sever:
         try:
             self.ob.login(self._sending_mail, self.__password)
             print("login done!")
-            # # Email content
-            # subject = 'Test mail sending in py'
-            # body = 'This is a test mail, please do not reply to it!'
-
-            # all_attched = set_attachment(subject,body, body_structure)
-
-            # send_mail(ob, all_attched)
-
-            # print("Mail sent!")
 
         except smtplib.SMTPAuthenticationError as e:
             print(f"Authentication failed: {e}")
@@ -65,8 +53,7 @@ class Mailer(Sever):
         if self.recipients_list:
             self.from_to = True
             self.msg['From'] = self._sending_mail
-            recipients_list = [email["email"] for email in self.recipients_list]
-            self.msg['To'] = ', '.join(recipients_list)
+            self.msg['To'] = ', '.join(self.recipients_list)
             print("mail sending from",self._sending_mail)
         else:
             print("Please add recipients!")
@@ -86,7 +73,7 @@ class Mailer(Sever):
                 except Exception as e:
                     print(e,"error")
             else:
-                print("no format given!")
+                print("format not given!")
 
             # Add the HTML body structure
             self.msg.set_content(body_structure, subtype='html')
@@ -112,13 +99,13 @@ class Mailer(Sever):
                 self.msg.attach(pdf_attachment)
                 print(pdf_file.name," attached...")
 
-    def set_recipients(self,reci_list):
+    def set_recipients(self,reci_list:list):
         self.recipients_list = reci_list
         print("recipients are added")
 
     def add_recipient(self,recipient):
         self.recipients_list.append(recipient)
-        print(recipient["email"] , ": recipient is added")
+        print(recipient , ": recipient is added")
     
     def send_mail(self):
         if self.from_to:
@@ -139,15 +126,6 @@ class Logs:
         with open("logs.txt",'a') as f:
             f.write('\n')
 
-def set_each_recipient(d):
-    new_d = {}
-    for k,v in d.items():
-        # new_d[k] = input(f"enter {k} : ")
-        new_d[k] = my_d[k]
-    print(new_d)
-    return new_d
-
-my_d = {'email': 'gta5andepic@gmail.com', 'first-name': 'mohit', 'last-name': 'suthar', 'birthdate': '14-9-2002', 'age': 21}
 
 if __name__ == "__main__":
     m = Mailer()
@@ -159,7 +137,7 @@ if __name__ == "__main__":
 
     m.set_subject("This is test mail sending using python")
     m.set_body_html('This is a test mail, please do not reply to it!', file(), html_replacement)
-    m.add_recipient(set_each_recipient(html_replacement))
+    # m.add_recipient()
     # m.add_recipient('jaldeepsinhgohil2003@gmail.com')
     # m.add_recipient('mendhaforam2010@gmail.com')
     # m.add_recipient('edcftygh@gmail.com')

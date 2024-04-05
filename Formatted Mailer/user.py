@@ -24,7 +24,7 @@ class User:
         trials = 2
         in_pin = input("Enter your login pin: ")
         while self.verify_pass(in_pin):
-            print("\nenter pin properly!")
+            print("\nYou entered wrong pin!")
             in_pin = input("Enter your login pin: ")
 
             if trials == 0 :
@@ -36,15 +36,16 @@ class User:
         return False
 
     def verify_pass(self, pin):
-        for n in str(pin):
-            if not n.isdigit():
-                return True
+        if len(str(pin)) == 4:
+            for n in str(pin):
+                if not n.isdigit():
+                    return True
         return False
     
     def change_pKey(self, trials = 2):
         old_pKey = int(input("Enter current pass key : "))
         if old_pKey == self.pKey:
-            print("only 4 digit pin!")
+            print("Only 4 digit pin allowed!")
             new_pKey = int(input("Enter new pass key : "))
             while self.verify_pass(new_pKey):
                 new_pKey = int(input("Enter new pass key : "))
@@ -64,6 +65,6 @@ class Userhandler:
         if user.status == "logout":
             return False
         self.users.append(user)
-        M.Logs().log(username + " login as "+role)
-        return True
+        M.Logs().log(username + " login as "+role+"\n")
+        return user
 
