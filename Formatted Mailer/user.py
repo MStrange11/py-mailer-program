@@ -22,6 +22,7 @@ class User:
             self.pKey = 1245
         elif role == 'view':
             self.pKey = 3654
+            print("view role don't have access to send mail.\n")
         else:
             return False
         
@@ -35,7 +36,7 @@ class User:
     def get_login(self):
         trials = 2
         in_pin = input("Enter your login pin: ")
-        while self.verify_pass(in_pin):
+        while in_pin != str(self.pKey):
             print("\nYou entered wrong pin!")
             in_pin = input("Enter your login pin: ")
 
@@ -43,28 +44,26 @@ class User:
                 return False
             trials -= 1
         
-        if int(in_pin) == self.pKey:
-            return True
-        return False
+        return True
 
-    def verify_pass(self, pin):
-        if len(str(pin)) == 4:
-            for n in str(pin):
-                if not n.isdigit():
-                    return True
-        return False
+    # def verify_pass(self, pin):
+    #     if len(str(pin)) != 4:
+    #         for n in str(pin):
+    #             if not n.isdigit():
+    #                 return True
+    #     return False
     
-    def change_pKey(self, trials = 2):
-        old_pKey = int(input("Enter current pass key : "))
-        if old_pKey == self.pKey:
-            print("Only 4 digit pin allowed!")
-            new_pKey = int(input("Enter new pass key : "))
-            while self.verify_pass(new_pKey):
-                new_pKey = int(input("Enter new pass key : "))
-        else:
-            if trials == 0 :
-                return False
-            self.change_pKey(trials - 1 )
+    # def change_pKey(self, trials = 2):
+    #     old_pKey = int(input("Enter current pass key : "))
+    #     if old_pKey == self.pKey:
+    #         print("Only 4 digit pin allowed!")
+    #         new_pKey = int(input("Enter new pass key : "))
+    #         while self.verify_pass(new_pKey):
+    #             new_pKey = int(input("Enter new pass key : "))
+    #     else:
+    #         if trials == 0 :
+    #             return False
+    #         self.change_pKey(trials - 1 )
                 
 
 
@@ -77,6 +76,6 @@ class Userhandler:
         if user.status == "logout":
             return False
         self.users.append(user)
-        M.Logs().log(username + " login as "+role+"\n")
+        M.Logs().log("\n"+username + " login as "+role)
         return user
 

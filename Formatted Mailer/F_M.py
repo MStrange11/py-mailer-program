@@ -6,11 +6,12 @@ import user
 
 class Mail_setup:
 
-    def __init__(self, html_file_content, replacement):
+    def __init__(self, html_file_content, replacement, role):
         self.html_data = html_file_content
         self.html_data_re = replacement
 
-        self.mail = M.Mailer()
+        self.mail = M.Mailer(role)
+        
         self.mail.set_subject(self.setting_subject(True))
         self.mail.set_body_html(self.setting_body_html(True), self.html_data, self.html_data_re)
 
@@ -22,11 +23,11 @@ class Mail_setup:
         default_text = "This is test mail sending using python"
         if auto:
             subject = input("enter mail subject : ")
-            return subject
+            return subject if subject else default_text
         self.mail.set_subject(default_text)
 
     def setting_body_html(self, auto=False):
-        default_text = 'This is a test mail, please do not reply to it!'
+        default_text = '\n\n\nThis is a test mail, please do not reply to it!'
         if auto:
             text = input("enter text for mail body: ")
             return default_text + "\n" + text
@@ -76,16 +77,16 @@ def login():
         while True:
             print("""
                 1) start mailing process
-                2) Change pass Key
                 0) Log out
                 """)
             option = int(input("enter option number: "))
 
             # if (option >= 0 and option <= 1 ):
             if option == 1:
-                return True
-            elif option == 2:
-                user_obj.change_pKey()
+                return u_role
+            # elif option == 2:
+            #     "2) Change pass Key"
+            #     user_obj.change_pKey()
             elif option == 0:
                 return False
 
@@ -94,15 +95,18 @@ def login():
 
 
 if __name__ == "__main__":
-    while True:
-        # if login():
-        if 1:
-            html_fmat, html_replacement = pf.main()
+    role = login()
+    mail_process = False
 
-            file = lambda: open(f"Templates\{html_fmat}.html").read()
+    if role:
+        html_fmat, html_replacement = pf.main()
+        file = lambda: open(f"Templates\{html_fmat}.html").read()
+        m = Mail_setup(file(), html_replacement, role)
 
-            m = Mail_setup(file(), html_replacement)
+        mail_process = True
 
+    while mail_process:
+        if role:
             while 1:
                 print('''
                     1) add recipient
@@ -110,10 +114,16 @@ if __name__ == "__main__":
                     3) attach image
                     4) attach pdf
                     5) send mail
-                    0) cancel process
+                    0) exit
                     ''')
                 option = int(input("enter option number: "))
                 if option == 0:
+
+                    fnh = M.Logs()
+                    fnh.log(f"{role} has log-out\n")
+                    fnh.finish_log()
+
+                    mail_process = False
                     break
 
                 if option == 1:
@@ -126,8 +136,10 @@ if __name__ == "__main__":
                     pf.display(email_list_type)
 
                     mail_option = int(input("enter mail option number: "))
+                    print()
+                    
                     if 1 <= mail_option <= len(email_list_type):
-                        m.add_recipients(reci_list[email_list_type[option - 1]])
+                        m.add_recipients(reci_list[email_list_type[mail_option - 1]])
                     else:
                         print("option number not found!")
                 elif option == 3:
@@ -137,7 +149,7 @@ if __name__ == "__main__":
                         print(img)
                     print()
 
-                    img_name = ["img/" + input("enter image file name: ")]
+                    img_name = ["img\\" + input("enter image file name: ").strip()]
                     m.mail.attach_image(img_name)
 
                 elif option == 4:
@@ -147,15 +159,13 @@ if __name__ == "__main__":
                         print(pdf)
                     print()
 
-                    pdf_name = ["pdf/" + input("enter pdf file name: ")]
+                    pdf_name = ["pdf\\" + input("enter pdf file name: ").strip()]
                     m.mail.attach_pdf(pdf_name)
 
                 elif option == 5:
                     m.final_send()
-                    break
                 else:
                     print("option number not found!")
-            break
         else:
             print("You have loged out! \n")
 

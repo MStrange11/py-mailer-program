@@ -1,9 +1,9 @@
 formats_data = {
-    "Product Launch": {"product name": "toy"}
-    , "Welcome": {"company name": None}
-    , "Event Invitations": {"Event type": "birthdat party"}
-    , "Announcement": {"institude name": None, "message": None}
-    , "Holiday": {"location": "location"}
+    "Product Launch": {"product name": None,"color":None, "offer":None}
+    , "Welcome": {"company name": None,"greeting message": None}
+    , "Event Invitations": {"Event type": "birthdat party","time":None,"duration":None}
+    , "Announcement": {"institude name": None,"related to":None, "message": None}
+    , "Holiday": {"location": "location", "how many days":None, "price":None}
 }
 
 
@@ -38,6 +38,7 @@ def show_format(formats):
 
 
 def main():
+    print()
     return show_format(list(formats_data.keys()))
 
 
