@@ -9,7 +9,7 @@ import Mail as M
 reci = {
     "meeting":['gta5andepic@gmail.com'],
     "old user":['gta5andepic@gmail.com', "EpicStrange0@gmail.com"],
-    "new user":['gta5andepic@gmail.com']
+    "new user":['gta5andepic@gmail.com','utsav.sehgal.123@gmail.com']
 }
 
 class User:
